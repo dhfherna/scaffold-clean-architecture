@@ -1,4 +1,4 @@
-name: Analyze Dependencies
+name: Generate SBOM for Java Project
 
 on:
   push:
@@ -7,16 +7,16 @@ on:
   workflow_dispatch:
 
 jobs:
-  analyze-dependencies:
+  generate-sbom:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Set up JDK 17
-        uses: actions/setup-java@b36c23c0d998641eff861008f374ee103c25ac73 # v4.4.0
+        uses: actions/setup-java@v3
         with:
-          distribution: 'temurin' 
+          distribution: 'temurin'
           java-version: 17
 
       - name: Generate SBOM
@@ -25,9 +25,10 @@ jobs:
           output_format: 'xml'
           output_file: 'bom.xml'
 
-      # Step 5: Upload the SBOM as an artifact (optional)
+      # Subir el SBOM como un artefacto (opcional)
       - name: Upload SBOM
         uses: actions/upload-artifact@v3
         with:
           name: bom.xml
           path: bom.xml
+
